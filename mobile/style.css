@@ -1,0 +1,195 @@
+:root{
+      --bg: #0b0f17;
+      --card: rgba(255,255,255,0.06);
+      --stroke: rgba(255,255,255,0.12);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.65);
+      --accent: #7cf7ff;
+      --accent2:#ffe66d;
+      --danger:#ff6b6b;
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: radial-gradient(900px 600px at 80% 0%, rgba(124,247,255,0.14), transparent 60%),
+                  radial-gradient(900px 600px at 10% 100%, rgba(255,230,109,0.12), transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+    }
+    .app{
+      width:min(520px, 100%);
+      padding:16px 16px 22px;
+    }
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin: 8px 0 14px;
+    }
+    .brand{
+      font-weight:800;
+      letter-spacing:0.2px;
+    }
+    .pill{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      color: var(--muted);
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      backdrop-filter: blur(10px);
+    }
+    h1{
+      margin: 4px 0 8px;
+      font-size: 26px;
+      line-height:1.25;
+    }
+    p{margin:0 0 14px; color: var(--muted); line-height:1.5;}
+
+    .couponQuestion{
+      margin: 10px;
+    }
+   
+    button{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      padding: 14px 12px;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .06s ease, background .2s ease, border-color .2s ease;
+      text-align:right;
+    }
+    button:active{ transform: scale(0.98); }
+    button.primary{
+      background: linear-gradient(135deg, rgba(124,247,255,0.22), rgba(255,230,109,0.14));
+      border-color: rgba(124,247,255,0.35);
+      align-items: center;
+      margin: 5px;
+    }
+    button.ghost{
+      margin: 10px;
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .row button{ flex:1; }
+
+    .input{
+      width:100%;
+      border-radius: 14px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,0.22);
+      color: var(--text);
+      padding: 14px 12px;
+      font-size: 16px;
+      outline:none;
+    }
+  
+    .store strong{display:block}
+    .store small{color:var(--muted)}
+    .badge{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(124,247,255,0.35);
+      color: rgba(124,247,255,0.9);
+      background: rgba(124,247,255,0.08);
+      white-space:nowrap;
+    }
+
+    video{
+      width:100%;
+      border-radius: 16px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,0.3);
+    }
+
+    .coupon{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 14px;
+      border-radius: 16px;
+      border:1px solid rgba(255,230,109,0.35);
+      background: rgba(255,230,109,0.08);
+      margin-top: 10px;
+    }
+    .code{
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+    .muted{ color: var(--muted); }
+
+    .screen{ display:none; }
+    .screen.active{ display:block; }
+
+    .back{
+      background: rgba(255,255,255,0.04);
+      border-color: var(--stroke);
+      font-weight:700;
+    }
+
+
+.composer {
+  margin-top: 12px;
+}
+
+.input-wrap{
+  position: relative;
+  width: 100%;
+}
+
+.input-wrap .input{
+  width: 100%;
+  border-radius: 14px;
+  border:1px solid var(--stroke);
+  background: rgba(0,0,0,0.22);
+  color: var(--text);
+  padding: 14px 12px 14px 56px; 
+  font-size: 16px;
+  outline:none;
+}
+
+.send-btn{
+  position:absolute;
+  top:50%;
+  left:8px;
+  transform: translateY(-50%);
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border:1px solid rgba(124,247,255,0.35);
+  background: rgba(124,247,255,0.12);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.send-btn:active{ transform: translateY(-50%) scale(0.98); }
+
+@media (max-width: 360px){
+  .send-btn{ padding: 0 10px; font-size: 13px; }
+  .input-wrap .input{ padding-left: 50px; }
+}
