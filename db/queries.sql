@@ -44,18 +44,17 @@ ORDER BY product_name ASC;
 """
 
 -- 5) Get navigation assets for a store:
---    - map_target_id: logical target identifier (for future map logic)
---    - route_image: overlay image filename/path for the store route
 GET_NAVIGATION_ASSET_BY_STORE = """
 SELECT
   s.store_id,
   s.store_name,
   n.map_target_id,
-  n.route_image
+  n.route_path_d
 FROM stores s
 JOIN store_navigation n ON n.store_id = s.store_id
 WHERE s.store_id = ?;
 """
+
 
 -- 6) Get coupon by store ID
 GET_COUPON_BY_STORE = """
