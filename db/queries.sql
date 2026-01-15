@@ -70,3 +70,68 @@ FROM products p
 JOIN coupons c ON c.store_id = p.store_id
 WHERE p.product_id = ?;
 """
+
+-- 8) List all ads (debug / verify data)
+GET_ALL_ADS = """
+SELECT
+  ad_id,
+  store_id,
+  ad_type,
+  asset_url,
+  trigger,
+  is_active,
+  created_at
+FROM ads
+ORDER BY ad_id DESC;
+"""
+
+-- 9) Get DEFAULT ad for a store (when user selects a store)
+GET_DEFAULT_AD_BY_STORE = """
+SELECT ad_id, ad_type, asset_url
+FROM ads
+WHERE store_id = ?
+  AND trigger = 'default'
+  AND is_active = 1
+ORDER BY ad_id DESC
+LIMIT 1;
+"""
+
+-- 10) Get COUPON-YES ad for a store (when user clicks "Yes" to coupon)
+GET_COUPON_YES_AD_BY_STORE = """
+SELECT ad_id, ad_type, asset_url
+FROM ads
+WHERE store_id = ?
+  AND trigger = 'coupon_yes'
+  AND is_active = 1
+ORDER BY ad_id DESC
+LIMIT 1;
+"""
+
+-- 11) Get best ad for a store (prefer coupon_yes, fallback to default)
+-- Use this as your main query so the app never breaks if coupon_yes is missing.
+GET_BEST_AD_BY_STORE = """
+SELECT ad_id, ad_type, asset_url, trigger
+FROM ads
+WHERE store_id = ?
+  AND is_active = 1
+  AND trigger IN ('coupon_yes', 'default')
+ORDER BY CASE trigger
+  WHEN 'coupon_yes' THEN 0
+  ELSE 1
+END,
+ad_id DESC
+LIMIT 1;
+"""
+
+-- 12) Disable an ad (soft delete)
+DISABLE_AD_BY_ID = """
+UPDATE ads
+SET is_active = 0
+WHERE ad_id = ?;
+"""
+
+-- 13) Delete an ad (hard delete – optional)
+DELETE_AD_BY_ID = """
+DELETE FROM ads
+WHERE ad_id = ?;
+"""

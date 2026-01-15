@@ -53,3 +53,10 @@ INSERT INTO products (product_name, category, store_id) VALUES
   ('משקפי ראייה', 'אופטיקה', 4),
   ('משקפי שמש', 'אופטיקה', 4),
   ('נוזל לשימור עדשות מגע', 'אופטיקה', 4);
+
+
+INSERT INTO ads (store_id, ad_type, asset_url, trigger)VALUES
+(1, 'image', '/assets/super_pharm.jpg', 'default'),
+(2, 'image', '/assets/aroma.jpg', 'default'),
+(3, 'image', '/assets/teva_naot.jpg', 'default'),
+(4, 'image', '/assets/opticana.jpg', 'default');
