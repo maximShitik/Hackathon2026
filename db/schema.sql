@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS stores (
 CREATE TABLE IF NOT EXISTS store_navigation (
   store_id       INTEGER PRIMARY KEY,
   map_target_id  TEXT NOT NULL,
-  route_image    TEXT NOT NULL,
+  route_path_d   TEXT NOT NULL,
 
   FOREIGN KEY (store_id) REFERENCES stores(store_id) ON DELETE CASCADE
 );

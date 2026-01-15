@@ -1,0 +1,336 @@
+:root{
+  --bg: #0b0f17;
+  --card: rgba(255,255,255,0.06);
+  --stroke: rgba(255,255,255,0.12);
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.65);
+  --accent: #7cf7ff;
+  --accent2:#ffe66d;
+  --danger:#ff6b6b;
+  --radius: 18px;
+}
+
+*{ box-sizing:border-box }
+
+html, body{
+  margin:0;
+  padding:0;
+  height: 100%;
+}
+
+body{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: radial-gradient(900px 600px at 80% 0%, rgba(124,247,255,0.14), transparent 60%),
+              radial-gradient(900px 600px at 10% 100%, rgba(255,230,109,0.12), transparent 60%),
+              var(--bg);
+  color: var(--text);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+}
+
+main {
+  height: calc(100vh - 70px); /* 70px ≈ גובה ה-topbar */
+  display: flex;
+}
+
+
+.app{
+  width:min(520px, 100%);
+  padding:16px 16px 22px;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin: 8px 0 14px;
+}
+
+.brand{
+  font-weight:800;
+  letter-spacing:0.2px;
+}
+
+.pill{
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,0.04);
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:13px;
+  color: var(--muted);
+}
+
+.quick-nav{
+  display:flex;
+  gap:10px;
+  margin: 0 0 14px;
+}
+
+.card{
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(10px);
+}
+
+h1{
+  margin: 4px 0 8px;
+  font-size: 26px;
+  line-height:1.25;
+}
+
+p{
+  margin:0 0 14px;
+  color: var(--muted);
+  line-height:1.5;
+}
+
+.muted{ color: var(--muted); }
+
+/* Buttons (works for <button> and <a>) */
+button, .btn{
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  padding: 14px 12px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .06s ease, background .2s ease, border-color .2s ease;
+  text-align:right;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+
+button:active, .btn:active{ transform: scale(0.98); }
+
+.btn.primary, button.primary{
+  background: linear-gradient(135deg, rgba(124,247,255,0.22), rgba(255,230,109,0.14));
+  border-color: rgba(124,247,255,0.35);
+}
+
+.btn.secondary, button.secondary{
+  background: rgba(255,255,255,0.04);
+  border-color: var(--stroke);
+  font-weight:700;
+}
+
+.btn.ghost, button.ghost{
+  background: rgba(255,255,255,0.03);
+}
+
+.row{
+  display:flex;
+  gap:10px;
+  margin-top: 10px;
+}
+.row .btn, .row button{ flex:1; }
+
+/* Chat */
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 8px;
+}
+.msg{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.msg.user{ align-items:flex-start; }
+.msg.bot{ align-items:flex-end; }
+
+.bubble{
+  max-width: 92%;
+  border:1px solid var(--stroke);
+  background: rgba(0,0,0,0.18);
+  padding: 12px 12px;
+  border-radius: 16px;
+  line-height:1.5;
+}
+
+.msg.user .bubble{
+  background: rgba(124,247,255,0.10);
+  border-color: rgba(124,247,255,0.25);
+}
+
+.meta{
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* chips */
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:10px;
+}
+
+.chip{
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-weight: 800;
+  cursor:pointer;
+}
+
+/* Composer */
+.composer {
+  margin-top: 8px;
+}
+
+.input-wrap{
+  position: relative;
+  width: 100%;
+}
+
+.input{
+  width: 100%;
+  border-radius: 14px;
+  border:1px solid var(--stroke);
+  background: rgba(0,0,0,0.22);
+  color: var(--text);
+  padding: 14px 12px 14px 56px; 
+  font-size: 16px;
+  outline:none;
+}
+
+.send-btn{
+  position:absolute;
+  top:50%;
+  left:8px;
+  transform: translateY(-50%);
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border:1px solid rgba(124,247,255,0.35);
+  background: rgba(124,247,255,0.12);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.send-btn:active{ transform: translateY(-50%) scale(0.98); }
+
+@media (max-width: 360px){
+  .send-btn{ padding: 0 10px; font-size: 13px; }
+  .input{ padding-left: 50px; }
+}
+
+/* Coupon card */
+.coupon-card{
+  display:flex;
+  align-items:stretch;
+  justify-content:space-between;
+  gap:12px;
+  padding: 14px;
+  border-radius: 16px;
+  border:1px solid rgba(255,230,109,0.35);
+  background: rgba(255,230,109,0.08);
+  margin-top: 10px;
+}
+.card.chat {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+
+
+.coupon-left .label{
+  color: var(--muted);
+  font-weight:700;
+  margin-bottom: 6px;
+}
+
+.code{
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.badge{
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(124,247,255,0.35);
+  color: rgba(124,247,255,0.9);
+  background: rgba(124,247,255,0.08);
+  white-space:nowrap;
+}
+
+/* Video */
+video{
+  width:100%;
+  border-radius: 16px;
+  border:1px solid var(--stroke);
+  background: rgba(0,0,0,0.3);
+}
+
+.nav-screen{
+  height: calc(100vh - 70px);
+  display: flex;
+}
+
+.nav-card{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 12px;
+}
+
+.map-container{
+  position: relative;
+  flex: 1;
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  overflow: auto;            /* ✅ מאפשר גלילה */
+  background: rgba(0,0,0,0.18);
+}
+
+/* פנימי: קובע את "קנבס המפה" */
+.map-canvas{
+  position: relative;
+  width: 100%;
+}
+
+/* המפה עצמה - שומרת יחס, ממלאת רוחב */
+.map-img{
+  display: block;
+  width: 100%;
+  height: auto;              /* ✅ הגובה גדל => יהיה scroll */
+}
+
+/* overlay יושב בדיוק על התמונה */
+.map-overlay{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Route styling */
+#routePath{
+  stroke: rgba(124,247,255,0.95);
+  filter: drop-shadow(0 0 6px rgba(124,247,255,0.35));
+}
+
+#startDot, #endDot{
+  fill: rgba(255,255,255,0.95);
+  stroke: rgba(124,247,255,0.75);
+  stroke-width: 10;
+}

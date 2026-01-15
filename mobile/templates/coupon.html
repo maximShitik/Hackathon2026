@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart NoviSignator - Coupon</title>
+  <link rel="stylesheet" href="../static/style.css" />
+</head>
+
+<body>
+  <div class="app">
+    <header class="topbar" role="banner">
+      <div class="brand">Smart NoviSignator</div>
+      <div class="pill" aria-live="polite">קופון</div>
+    </header>
+
+ 
+    <main role="main" aria-label="קופון">
+      <section class="card">
+        <h1 class="title">הקופון שלך</h1>
+        <p class="subtitle muted">הצג את הקוד בקופה. במקביל, הפרסומת של החנות תעלה למסך.</p>
+
+        <div class="coupon-card" aria-label="כרטיס קופון">
+          <div class="coupon-left">
+            <div class="label">קוד קופון</div>
+            <div class="code" id="couponCode">SAVE-20</div>
+            <div class="desc" id="couponDesc">20% הנחה על פריט אחד</div>
+          </div>
+          <div class="coupon-right">
+            <div class="badge" id="couponStore">Nike</div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:14px;">
+          <a class="btn secondary" href="index.html">חזרה לצ׳אט</a>
+          <a class="btn primary" href="navigate.html">לניווט</a>
+        </div>
+
+      </section>
+    </main>
+
+    <footer class="footer muted" role="contentinfo"></footer>
+  </div>
+</body>
+</html>

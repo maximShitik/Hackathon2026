@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart NoviSignator - Chat</title>
+  <link rel="stylesheet" href="../static/style.css" />
+</head>
+
+<body>
+  <div class="app">
+    <header class="topbar" role="banner">
+      <div class="brand" aria-label="Smart Navigator">Smart NoviSignator</div>
+      <div class="pill" id="statusPill" aria-live="polite">מוכן</div>
+    </header>
+
+    <main role="main" aria-label="צ׳אט">
+      <section class="card chat">
+        <div class="chat-header">
+          <h1 class="title">מה אתה מחפש?</h1>
+          <p class="subtitle">
+            הקלד את השירות או המוצר המבוקש והצ'ט יחזיר רשימת חנויות עם אפשרות קבלת קופון הנחה.
+          </p>
+        </div>
+
+        <div class="messages" id="messages" aria-live="polite" aria-relevant="additions">
+          <div class="msg bot">
+            <div class="bubble">
+              היי! כתוב לי מה אתה מחפש (מוצר/חנות), ואני אציע חנויות.
+            </div>
+            <div class="meta">בוט</div>
+          </div>
+
+          <div class="msg bot" id="storesMessage" hidden>
+            <div class="bubble">
+              מצאתי כמה אפשרויות. לחץ על חנות כדי לבחור:
+              <div class="chips" id="storeChips" role="list"></div>
+            </div>
+            <div class="meta">בוט</div>
+          </div>
+
+          <div class="msg bot" id="couponQuestion" hidden>
+            <div class="bubble">
+              רוצה לקבל קופון הנחה? שלח את החנות הנבחרת לפרסום במסך ה־NoviSign!
+              <div class="actions" role="group" aria-label="בחירת קופון">
+                <!-- בדמו: פשוט לינקים לעמודים -->
+                <a class="btn primary" href="coupon.html">כן, תן קופון</a>
+                <a class="btn secondary" href="navigate.html">לא, המשך לניווט</a>
+              </div>
+            </div>
+            <div class="meta">בוט</div>
+          </div>
+        </div>
+
+        <form class="composer" id="chatForm" autocomplete="off">
+          <div class="input-wrap">
+            <input class="input" id="chatInput" type="text" placeholder="כתוב הודעה…" />
+            <button class="send-btn" type="submit">שלח</button>
+          </div>
+        </form>
+
+        <a class="btn ghost" href="index.html" id="btnNewChat">שיחה חדשה</a>
+      </section>
+    </main>
+
+    <footer class="footer muted" role="contentinfo"></footer>
+  </div>
+  <script src="../static/chat.js"></script>
+</body>
+</html>

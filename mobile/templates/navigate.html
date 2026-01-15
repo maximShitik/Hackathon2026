@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart NoviSignator - Navigation</title>
+  <link rel="stylesheet" href="../static/style.css" />
+</head>
+
+<body>
+  <div class="app">
+    <header class="topbar" role="banner">
+      <div class="brand">Smart NoviSignator</div>
+      <div class="pill" aria-live="polite">ניווט</div>
+    </header>
+
+    <main class="nav-screen" role="main" aria-label="ניווט לחנות">
+      <section class="card nav-card">
+        <div class="nav-header">
+          <h1 class="title" id="navTitle">ניווט לחנות</h1>
+          <p class="subtitle muted">עקוב אחרי המסלול על המפה.</p>
+        </div>
+
+        <!-- MAP AREA -->
+        <div class="map-container" id="mapContainer">
+  <div class="map-canvas">
+    <img class="map-img" src="../static/assets/mall.png" alt="מפת הקניון" />
+
+    <svg class="map-overlay" viewBox="0 0 1395 3645" preserveAspectRatio="xMidYMid meet">
+      <path id="routePath" d="M87 791H648V880L743 988.5V2283V2297H545.5V2435L612.5 2504.5V2945"
+            fill="none" stroke-width="20"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</div>
+
+
+        <!-- ACTIONS -->
+        <div class="row">
+          <a class="btn secondary" href="index.html">חזרה לצ׳אט</a>
+          <a class="btn ghost" href="coupon.html">לקופון</a>
+        </div>
+      </section>
+    </main>
+
+    <script src="../static/nav.js"></script>
+  </div>
+</body>
+
+</html>

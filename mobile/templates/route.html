@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Route Demo</title>
+  <style>
+    .map-wrap{
+      position: relative;
+      width: min(95vw, 420px);
+      margin: 24px auto;
+    }
+    .map-img{
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
+    }
+    .overlay{
+      position: absolute;
+      inset: 0;
+      pointer-events: none; /* שלא יתפוס קליקים */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="map-wrap" id="mapWrap">
+    <!-- 1) תמונת המפה -->
+    <img class="map-img" id="mapImg" src="/assets/mall.png" alt="Mall Map">
+
+    <!-- 2) שכבת SVG שקופה מעל התמונה -->
+    <svg class="overlay" id="svgOverlay" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+      <!-- נקודת התחלה/סיום (אופציונלי) -->
+      <circle id="startDot" cx="120" cy="820" r="10" fill="white" opacity="0.95"></circle>
+      <circle id="endDot"   cx="820" cy="220" r="10" fill="white" opacity="0.95"></circle>
+
+      <!-- הקו עצמו -->
+      <path
+        id="routePath"
+        d="M 120 820 L 220 820 L 220 650 L 520 650 L 520 420 L 820 420 L 820 220"
+        fill="none"
+        stroke="dodgerblue"
+        stroke-width="14"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </div>
+
+  <div style="text-align:center;">
+    <button id="playBtn">נגן מסלול</button>
+    <button id="resetBtn">איפוס</button>
+  </div>
+
+  <script>
+    const path = document.getElementById("routePath");
+    const playBtn = document.getElementById("playBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    // מכין את ה"ציור בהדרגה" בעזרת stroke-dasharray
+    function preparePath() {
+      const length = path.getTotalLength();
+      path.style.strokeDasharray = length;
+      path.style.strokeDashoffset = length;
+      path.style.transition = "none";
+    }
+
+    function play(durationMs = 1200) {
+      const length = path.getTotalLength();
+      path.style.transition = `stroke-dashoffset ${durationMs}ms ease-in-out`;
+      // נותנים לדפדפן "לנשום" כדי שה-transition יתפוס
+      requestAnimationFrame(() => {
+        path.style.strokeDashoffset = "0";
+      });
+    }
+
+    function reset() {
+      preparePath();
+    }
+
+    // init
+    preparePath();
+
+    playBtn.addEventListener("click", () => play(1400));
+    resetBtn.addEventListener("click", reset);
+  </script>
+
+</body>
+</html>
