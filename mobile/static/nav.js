@@ -1,16 +1,30 @@
 const path = document.getElementById("routePath");
+const flow = document.getElementById("routeFlow");
+const outline = document.getElementById("routeOutline");
+
+
+function setRouteD(d) {
+  outline.setAttribute("d", d);
+  main.setAttribute("d", d);
+  flow.setAttribute("d", d);
+}
+
 
 function preparePath() {
-  const length = path.getTotalLength();
-  path.style.strokeDasharray = length;
-  path.style.strokeDashoffset = length;
-  path.style.transition = "none";
+  const length = main.getTotalLength();
+  [outline, main, flow].forEach((p) => {
+    p.style.strokeDasharray = length;
+    p.style.strokeDashoffset = length;
+    p.style.transition = "none";
+  });
 }
 
 function play(durationMs = 1300) {
-  path.style.transition = `stroke-dashoffset ${durationMs}ms ease-in-out`;
-  requestAnimationFrame(() => {
-    path.style.strokeDashoffset = "0";
+   requestAnimationFrame(() => {
+    [outline, main, flow].forEach((p) => {
+      p.style.transition = `stroke-dashoffset ${durationMs}ms ease-in-out`;
+      p.style.strokeDashoffset = "0";
+    });
   });
 }
 

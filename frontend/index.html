@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pharmacy AI Agent</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div id="app" class="with-inspector">
+    <header id="topbar">
+      <div id="title">Pharmacy AI Agent</div>
+    </header>
+
+    <div id="main">
+      <div id="chat-shell">
+        <div id="chat"></div>
+      </div>
+
+      <aside id="inspector">
+        <div id="inspector-header">
+          <div class="inspector-title">Tool calls</div>
+        </div>
+        <div id="tool-log"></div>
+      </aside>
+    </div>
+
+    <form id="input-form">
+      <input id="user-input" placeholder="Type your message…" autocomplete="off" />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script src="app.js?v=2"></script>
+</body>
+
+</html>

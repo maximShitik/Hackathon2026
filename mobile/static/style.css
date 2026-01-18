@@ -325,12 +325,31 @@ video{
 
 /* Route styling */
 #routePath{
-  stroke: rgba(124,247,255,0.95);
+  stroke: rgba(247, 12, 4, 0.95);
   filter: drop-shadow(0 0 6px rgba(124,247,255,0.35));
+  color: rgba(255, 187, 124, 0.95);
 }
 
 #startDot, #endDot{
   fill: rgba(255,255,255,0.95);
   stroke: rgba(124,247,255,0.75);
   stroke-width: 10;
+}
+
+/* Route styling - GPS look */
+#routeOutline{
+  stroke: rgba(0,0,0,0.55);
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.35));
+}
+
+
+#routeFlow{
+  stroke: rgba(255,255,255,0.75);
+  stroke-dasharray: 14 18;
+  animation: dashMove 0.9s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.22));
+}
+
+@keyframes dashMove{
+  to { stroke-dashoffset: -32; }
 }
