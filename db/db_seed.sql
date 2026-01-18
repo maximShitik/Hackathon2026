@@ -24,19 +24,19 @@ INSERT INTO coupons (store_id, coupon_code) VALUES
 -- PRODUCTS
 -- 1) סופר פארם
 INSERT INTO products (product_name, category, store_id) VALUES
-  ('אקומול', 'בריאות', 1),
-  ('נורופן', 'בריאות', 1),
+  ('אקומול', 'תרופות', 1),
+  ('נורופן', 'תרופות', 1),
   ('נוטרילון', 'מזון תינוקות', 1),
-  ('ACUVUE', 'אופטיקה- עדשות מגע', 1),
-  ('Ray-ban', 'אופטיקה- משקפי שמש', 1);
+  ('ACUVUE', 'אופטיקה', 1),
+  ('Ray-ban', 'אופטיקה', 1);
 
 -- 2) ארומה
 INSERT INTO products (product_name, category, store_id) VALUES
-  ('אספרסו', 'משקאות חמים - קפה', 2),
-  ('דניס קינמון', 'מאפים', 2),
-  ('בורקס גבינה', 'מאפים', 2),
-  ('שקשוקה', 'ארוחות בוקר', 2),
-  ('לימונדה', 'משקאות קרים', 2);
+  ('אספרסו', 'משקאות', 2),
+  ('דניס קינמון', 'אוכל', 2),
+  ('בורקס גבינה', 'אוכל', 2),
+  ('שקשוקה', 'אוכל', 2),
+  ('לימונדה', 'משקאות', 2);
 
 -- 3) טבע נאות
 INSERT INTO products (product_name, category, store_id) VALUES
@@ -55,8 +55,11 @@ INSERT INTO products (product_name, category, store_id) VALUES
   ('נוזל לשימור עדשות מגע', 'אופטיקה', 4);
 
 
-INSERT INTO ads (store_id, ad_type, asset_url, trigger)VALUES
-(1, 'image', '/assets/super_pharm.jpg', 'default'),
-(2, 'image', '/assets/aroma.jpg', 'default'),
-(3, 'image', '/assets/teva_naot.jpg', 'default'),
-(4, 'image', '/assets/opticana.jpg', 'default');
+INSERT INTO ads (store_id, ad_type, asset_url, logo_url, trigger) VALUES
+(1, 'image', '/assets/super_pharm.jpg', '/assets/super_logo.jpg', 'default'),
+(1, 'image', '/assets/gl.jpg', '/assets/super_logo.jpg', 'optic'),
+(2, 'image', '/assets/moka.png', '/assets/aroma_logo.png', 'default'),
+(2, 'image', '/assets/shakshu.png', '/assets/aroma_logo.png', 'food'),
+(3, 'image', '/assets/tev_asset.jpg', '/assets/teva_naot_logo.png', 'default'),
+(4, 'image', '/assets/optic.png', '/assets/optic_logo.jpg', 'default');
+(4, 'image', '/assets/gl.jpg', '/assets/optic_logo.jpg', 'optic'),
