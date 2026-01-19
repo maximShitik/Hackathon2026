@@ -37,3 +37,6 @@ def get_navigation_for_store(request_args: IDArgs, conn: DatabaseConnection) -> 
     if not row:
         return error_output_with_message("No matching navigation asset found.")
     return CallOutput("success", {"asset": NavigationEntry(**row).model_dump()})
+
+def set_navigation_for_store(request_args: IDArgs, conn: DatabaseConnection) -> CallOutput:
+    return CallOutput("success", {})

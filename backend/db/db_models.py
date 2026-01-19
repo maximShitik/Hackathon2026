@@ -65,7 +65,8 @@ class AllStoreAdEntry(BaseModel):
     store_id: int
     ad_type: str
     asset_url: str
-    trigger: str
+    logo_url: str
+    category: str
     is_active: bool
     created_at: str
 
@@ -88,4 +89,4 @@ class AdByStoreEntry(BaseModel):
     ad_id: int
     ad_type: str
     asset_url: str
-    trigger: str
+    category: str

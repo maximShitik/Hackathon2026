@@ -55,11 +55,11 @@ INSERT INTO products (product_name, category, store_id) VALUES
   ('נוזל לשימור עדשות מגע', 'אופטיקה', 4);
 
 
-INSERT INTO ads (store_id, ad_type, asset_url, logo_url, trigger) VALUES
+INSERT INTO ads (store_id, ad_type, asset_url, logo_url, category) VALUES
 (1, 'image', '/assets/super_pharm.jpg', '/assets/super_logo.jpg', 'default'),
-(1, 'image', '/assets/gl.jpg', '/assets/super_logo.jpg', 'optic'),
+(1, 'image', '/assets/gl.jpg', '/assets/super_logo.jpg', 'אופטיקה'),
 (2, 'image', '/assets/moka.png', '/assets/aroma_logo.png', 'default'),
-(2, 'image', '/assets/shakshu.png', '/assets/aroma_logo.png', 'food'),
+(2, 'image', '/assets/shakshu.png', '/assets/aroma_logo.png', 'אוכל'),
 (3, 'image', '/assets/tev_asset.jpg', '/assets/teva_naot_logo.png', 'default'),
-(4, 'image', '/assets/optic.png', '/assets/optic_logo.jpg', 'default');
-(4, 'image', '/assets/gl.jpg', '/assets/optic_logo.jpg', 'optic'),
+(4, 'image', '/assets/optic.png', '/assets/optic_logo.jpg', 'default'),
+(4, 'image', '/assets/gl.jpg', '/assets/optic_logo.jpg', 'אופטיקה');
