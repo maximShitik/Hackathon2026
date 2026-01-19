@@ -4,16 +4,12 @@ Server running the chat.
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
-import httpx
-from typing import Dict, Any
-from datetime import datetime
 import traceback
 from backend.model.message import Message, MessageMetadata
 from backend.model.response_provider import ResponseProvider
 from backend.server.lifespan import lifespan
 from backend.server.sse_factory import *
 from backend.model.chat_events_factory import ChatEventType
-from backend.server.ad_provider import AdProvider
 
 # The application server.
 app = FastAPI(lifespan=lifespan)

@@ -123,9 +123,9 @@ async def lifespan(app: FastAPI):
     app.state.response_provider = _setup_response_provider(ToolManager(app.state.db_pool))
     scheduler = AsyncIOScheduler()
     async def scheduled_update():
-        return
         data = app.state.ad_provider.get_ad()
-        await push_to_novisign_async(api_key="", items_group="mall-signage", data_items=data, )
+        key = "reckru_LYMXHua9gz1fwwKoK49hh5Cz5di2rb06ojOTzYs5FvcqT-H0MqVp4W-JL"
+        await push_to_novisign_async(api_key=key, items_group="mall-signage", data_items=data, )
 
     scheduler.add_job(scheduled_update, trigger="interval", seconds=30, max_instances=1,
                       coalesce=True)
