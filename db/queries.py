@@ -12,6 +12,18 @@ FROM stores
 WHERE store_id = ?;
 """
 
+GET_ALL_PRODUCTS = """
+SELECT
+  p.product_id,
+  p.product_name,
+  p.category,
+  s.store_id,
+  s.store_name
+  
+FROM products p
+JOIN stores s ON s.store_id = p.store_id
+"""
+
 # Search products by free text:
 #    - product name
 #    - category
@@ -55,6 +67,7 @@ JOIN store_navigation n ON n.store_id = s.store_id
 WHERE s.store_id = ?;
 """
 
+CHECK_DB_EXISTS = "SELECT name FROM sqlite_master WHERE type='table' AND name='products';"
 
 # Get coupon by store ID
 GET_COUPON_BY_STORE = """
@@ -78,7 +91,8 @@ SELECT
   store_id,
   ad_type,
   asset_url,
-  trigger,
+  logo_url,
+  category,
   is_active,
   created_at
 FROM ads
@@ -90,7 +104,7 @@ GET_DEFAULT_AD_BY_STORE = """
 SELECT ad_id, ad_type, asset_url
 FROM ads
 WHERE store_id = ?
-  AND trigger = 'default'
+  AND category = 'default'
   AND is_active = 1
 ORDER BY ad_id DESC
 LIMIT 1;
@@ -101,7 +115,7 @@ GET_COUPON_YES_AD_BY_STORE = """
 SELECT ad_id, ad_type, asset_url
 FROM ads
 WHERE store_id = ?
-  AND trigger = 'coupon_yes'
+  AND category = 'coupon_yes'
   AND is_active = 1
 ORDER BY ad_id DESC
 LIMIT 1;
@@ -110,12 +124,11 @@ LIMIT 1;
 # Get best ad for a store (prefer coupon_yes, fallback to default)
 # Use this as your main query so the app never breaks if coupon_yes is missing.
 GET_BEST_AD_BY_STORE = """
-SELECT ad_id, ad_type, asset_url, trigger
+SELECT ad_id, ad_type, asset_url, category
 FROM ads
 WHERE store_id = ?
   AND is_active = 1
-  AND trigger IN ('coupon_yes', 'default')
-ORDER BY CASE trigger
+ORDER BY CASE category
   WHEN 'coupon_yes' THEN 0
   ELSE 1
 END,

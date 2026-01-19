@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS ads (
   store_id   INTEGER NOT NULL,
   ad_type    TEXT    NOT NULL CHECK (ad_type IN ('image', 'navigation')),
   asset_url  TEXT    NOT NULL,
-  trigger    TEXT    NOT NULL CHECK (trigger IN ('default', 'coupon_yes')),
+  logo_url   TEXT    NOT NULL,
+  category    TEXT    NOT NULL,
   is_active  INTEGER NOT NULL DEFAULT 1 CHECK (is_active IN (0,1)),
   created_at TEXT    NOT NULL DEFAULT (datetime('now')),
   FOREIGN KEY (store_id) REFERENCES stores(store_id)
@@ -48,5 +49,5 @@ CREATE TABLE IF NOT EXISTS ads (
 CREATE INDEX IF NOT EXISTS idx_products_name ON products(product_name);
 CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
 CREATE INDEX IF NOT EXISTS idx_products_store ON products(store_id);
-CREATE INDEX IF NOT EXISTS idx_ads_store_trigger_active ON ads (store_id, trigger, is_active);
+CREATE INDEX IF NOT EXISTS idx_ads_store_trigger_active ON ads (store_id, category, is_active);
 CREATE INDEX IF NOT EXISTS idx_ads_store_type_active ON ads (store_id, ad_type, is_active);

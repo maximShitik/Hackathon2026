@@ -1,9 +1,9 @@
 from backend.db.db_models import ProductEntry, StoreInventoryEntry, CouponEntry
-from backend.tools.schemas import ProductRequestArts, IDArgs
+from backend.tools.schemas import ProductRequestArts, IDArgs, AppRequestArgsBaseModel
 from backend.db.database_connection import DatabaseConnection
 from backend.tools.models import CallOutput
 from backend.tools.error_dict_factory import *
-from db.queries import SEARCH_PRODUCTS, GET_PRODUCTS_BY_STORE, GET_COUPON_BY_PRODUCT
+from db.queries import SEARCH_PRODUCTS, GET_PRODUCTS_BY_STORE, GET_COUPON_BY_PRODUCT, GET_ALL_PRODUCTS
 
 
 def search_product(request_args: ProductRequestArts,
@@ -14,6 +14,12 @@ def search_product(request_args: ProductRequestArts,
     if len(rows) == 0:
         return error_output_with_message("No matching products found.")
     return CallOutput("success", {"products": [ProductEntry(**r).model_dump() for r in rows]})
+
+
+def get_all_products(_: AppRequestArgsBaseModel, conn: DatabaseConnection):
+    cursor = conn.cursor()
+    rows = cursor.execute(GET_ALL_PRODUCTS).fetchall()
+    return [ProductEntry(**r).model_dump() for r in rows]
 
 
 def get_products_by_store(request_args: IDArgs, conn: DatabaseConnection) -> CallOutput:

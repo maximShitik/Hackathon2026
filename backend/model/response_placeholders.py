@@ -12,58 +12,52 @@ from backend.language_utils import *
 
 # Generic placeholder messages for tool invocation in english.
 TOOL_WAITING_MESSAGES = {
-    "get_medication_by_name": (
-        "Looking up medication information…"
+    "get_stores": (
+        "Looking up stores…"
     ),
-    "find_medications_by_ingredient": (
-        "Searching for medications that contain this ingredient…"
+    "get_store_by_id": (
+        "Searching for a store…"
     ),
-    "check_inventory": (
-        "Checking availability in the selected location…"
+    "get_coupon_for_store": (
+        "Checking for coupons…"
     ),
-    "list_locations": (
-        "Retrieving available pharmacy locations…"
+    "search_product": (
+        "Retrieving products…"
     ),
-    "create_support_ticket": (
-        "Creating a support request…"
+    "get_products_by_store": (
+        "Listing store inventory…"
     ),
-    "request_reservation": (
-        "Verifying prescription details and reserving inventory…"
+    "get_coupon_for_product": (
+        "Getting coupons…"
     ),
-    "get_ticket": (
-        "Retrieving support ticket…"
-    ),
-    "get_reservation": (
-        "Retrieving reservation…"
-    ),
+    "set_navigation_for_store": (
+        "Setting map…"
+    )
 }
 
 # Generic placeholder messages for tool invocation in hebrew.
-TOOL_WAITING_MESSAGES_HE = {
-    "get_medication_by_name": (
-        "מחפש מידע על התרופה…"
+TOOL_WAITING_MESSAGES_HE ={
+    "get_stores": (
+        "מחפש חנויות…"
     ),
-    "find_medications_by_ingredient": (
-        "מחפש תרופות המכילות את החומר הפעיל…"
+    "get_store_by_id": (
+        "מחפש חנות…"
     ),
-    "check_inventory": (
-        "בודק זמינות במלאי בסניף שנבחר…"
+    "get_coupon_for_store": (
+        "מחפש קופון…"
     ),
-    "list_locations": (
-        "טוען את רשימת הסניפים הזמינים…"
+    "search_product": (
+        "בודק רשימת מוצרים…"
     ),
-    "create_support_ticket": (
-        "יוצר פנייה לשירות הלקוחות…"
+    "get_products_by_store": (
+        "בודק מלאי חנות…"
     ),
-    "request_reservation": (
-        "מאמת פרטי מרשם ושומר את התרופה במלאי…"
+    "get_coupon_for_product": (
+        "מחפש קופון…"
     ),
-    "get_ticket": (
-        "מחפש פנייה לשירות הלקוחות…"
-    ),
-    "get_reservation": (
-        "מחפש מרשם…"
-    ),
+    "set_navigation_for_store": (
+        "מוצא מפה.."
+    )
 }
 
 

@@ -9,10 +9,9 @@ from typing import Any, Callable, Dict, Tuple, Type, Union
 from dataclasses import asdict
 
 from backend.tools.schemas import *
-from backend.tools.medication import get_medication_by_name, find_medications_by_ingredient
-from backend.tools.inventory import check_inventory, list_locations
-from backend.tools.ticket import create_support_ticket, get_ticket
-from backend.tools.reserve_prescription import request_reservation, get_reservation
+from backend.tools.stores import *
+from backend.tools.products import *
+from backend.tools.ads import *
 from backend.db.database_connection import DatabaseConnection
 from backend.db.connection_pool import ConnectionPool
 from backend.tools.error_dict_factory import error_output_with_message
@@ -23,14 +22,13 @@ tool_fn = Callable[[AppRequestArgsBaseModel, DatabaseConnection], CallOutput]
 
 # Mapping of tool names to functions and argument types
 TOOL_FUNCS: Dict[str, Tuple[tool_fn, Type[AppRequestArgsBaseModel]]] = {
-    "get_medication_by_name": (get_medication_by_name, MedicationSearchArgs),
-    "find_medications_by_ingredient": (find_medications_by_ingredient, IngredientSearchArgs),
-    "check_inventory": (check_inventory, InventoryRequest),
-    "list_locations": (list_locations, ListLocationsRequest),
-    "create_support_ticket": (create_support_ticket, TicketRequest),
-    "get_ticket": (get_ticket, GetByIDRequest),
-    "request_reservation": (request_reservation, ReservationRequestArgs),
-    "get_reservation": (get_reservation, GetByIDRequest)
+    "get_stores": (get_stores, AppRequestArgsBaseModel),
+    "get_store_by_id": (get_store_by_id, IDArgs),
+    "get_coupon_for_store": (get_coupon_for_store, IDArgs),
+    "search_product": (search_product, ProductRequestArts),
+    "get_products_by_store": (get_products_by_store, IDArgs),
+    "get_coupon_for_product": (get_coupon_for_product, IDArgs),
+    "set_navigation_for_store": (set_navigation_for_store, IDArgs)
 }
 
 
