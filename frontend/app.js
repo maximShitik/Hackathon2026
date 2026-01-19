@@ -4,43 +4,7 @@ const formEl = document.getElementById("input-form");
 const inputEl = document.getElementById("user-input");
 
 const appEl = document.getElementById("app");
-const toolLogEl = document.getElementById("tool-log");
-console.log("test")
-console.log(toolLogEl)
 let conversation = [];
-
-function addToolEntry(name, args) {
-  const wrap = document.createElement("div");
-  wrap.className = "tool-entry";
-
-  const title = document.createElement("div");
-  title.className = "tool-name";
-  title.textContent = name || "(unknown tool)";
-
-  const pre = document.createElement("pre");
-  pre.textContent = typeof args === "string" ? args : JSON.stringify(args, null, 2);
-
-  wrap.appendChild(title);
-  wrap.appendChild(pre);
-  toolLogEl.appendChild(wrap);
-  toolLogEl.scrollTop = toolLogEl.scrollHeight;
-}
-
-function maybeLogToolCall(msg) {
-  console.log("TOOL EVENT RECEIVED:", msg);
-  if (msg.type === "tool_call_generated" && msg.data) {
-    const name = msg.data.name;
-    const args = msg.data.args ?? "";
-    addToolEntry(name, args);
-    return;
-  }
-  if (msg.type === "tool_output_generated" && msg.data) {
-    const name = msg.data.name;
-    const result = msg.data.result ?? "";
-    addToolEntry(name, result);
-    return;
-  }
-}
 
 // Map of rendered items by id -> DOM element
 const elById = new Map();
@@ -123,7 +87,6 @@ function parseSseBuffer(buffer, onMsg) {
       const jsonStr = line.slice(6).trim();
       try {
         const msg = JSON.parse(jsonStr);
-        maybeLogToolCall(msg);
         onMsg(msg);
       } catch (e) {
         console.warn("Failed to parse SSE JSON:", jsonStr, e);
