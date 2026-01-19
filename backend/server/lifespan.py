@@ -12,8 +12,8 @@ import httpx
 import os
 import json
 from typing import Dict, Any
-from backend.model.gemini.client import GeminiToolUsageClient, SimpleGeminiResponseProvider
-from backend.model.gemini.summary_format_provider import create_gemini_summary_format
+# from backend.model.gemini.client import GeminiToolUsageClient, SimpleGeminiResponseProvider
+# from backend.model.gemini.summary_format_provider import create_gemini_summary_format
 from backend.model.openai.client import OpenAIToolResponseProvider, OpenAISimpleResponseProvider
 from backend.model.openai.tool_usage_parser import create_summary_format
 from backend.model.openai.chat_utils import count_tokens
@@ -70,7 +70,7 @@ def _setup_openai_provider(cfg: Dict[str, str], tool_manager: ToolManager) -> Re
     :return: The OpenAI provider.
     """
     api_key = cfg["OPENAI_API_KEY"]
-    model_name = cfg.get("MODEL_NAME", "gpt-5")
+    model_name = cfg.get("MODEL_NAME", "gpt-5-nano")
     tool_response_provider = OpenAIToolResponseProvider(tool_manager=tool_manager,
                                                         api_key=api_key, model_name=model_name)
     simple_response_provider = OpenAISimpleResponseProvider(api_key, model_name)
@@ -78,15 +78,15 @@ def _setup_openai_provider(cfg: Dict[str, str], tool_manager: ToolManager) -> Re
                        token_counter=count_tokens)
 
 
-def _setup_gemini_provider(cfg: Dict[str, str], tool_manager: ToolManager) -> ResponseProvider:
-    api_key = cfg["GEMINI_KEY"]
-    model_name = cfg.get("GEMINI_MODEL", "gemini-2.0-flash")
-    tool_response_provider = GeminiToolUsageClient(tool_manager=tool_manager, api_key=api_key,
-                                                   model_name=model_name)
-    simple_response_provider = SimpleGeminiResponseProvider(api_key, model_name)
-    return ChatManager(tool_response_provider, simple_response_provider,
-                       create_gemini_summary_format,
-                       token_counter=None)
+# def _setup_gemini_provider(cfg: Dict[str, str], tool_manager: ToolManager) -> ResponseProvider:
+#     api_key = cfg["GEMINI_KEY"]
+#     model_name = cfg.get("GEMINI_MODEL", "gemini-2.0-flash")
+#     tool_response_provider = GeminiToolUsageClient(tool_manager=tool_manager, api_key=api_key,
+#                                                    model_name=model_name)
+#     simple_response_provider = SimpleGeminiResponseProvider(api_key, model_name)
+#     return ChatManager(tool_response_provider, simple_response_provider,
+#                        create_gemini_summary_format,
+#                        token_counter=None)
 
 
 def _setup_response_provider(tool_manager: ToolManager) -> ResponseProvider:

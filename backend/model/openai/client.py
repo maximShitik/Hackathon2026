@@ -27,7 +27,7 @@ class OpenAISimpleResponseProvider(ResponseProvider):
     Object implementing the ResponseProvider interface for OpenAI API response creations.
     """
 
-    def __init__(self, api_key: str, model_name: str = "gpt-5"):
+    def __init__(self, api_key: str, model_name: str = "gpt-5-nano"):
         self.client = AsyncOpenAI(api_key=api_key)
         self.model = model_name
 
@@ -50,7 +50,7 @@ class OpenAIToolResponseProvider(ResponseProvider):
     usage.
     """
 
-    def __init__(self, tool_manager: ToolManager, api_key: str, model_name: str = "gpt-5",
+    def __init__(self, tool_manager: ToolManager, api_key: str, model_name: str = "gpt-5-nano",
                  tool_call_limit: int = 100):
         """
         Initialize the object with the given arguments.
