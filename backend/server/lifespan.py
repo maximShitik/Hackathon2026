@@ -69,7 +69,7 @@ def _setup_openai_provider(cfg: Dict[str, str], tool_manager: ToolManager) -> Re
     :param tool_manager: The tool manager to use.
     :return: The OpenAI provider.
     """
-    api_key = cfg["OPENAI_API_KEY"]
+    api_key = os.environ["OPENAI_API_KEY"]
     model_name = cfg.get("MODEL_NAME", "gpt-5-nano")
     tool_response_provider = OpenAIToolResponseProvider(tool_manager=tool_manager,
                                                         api_key=api_key, model_name=model_name)
@@ -89,6 +89,7 @@ def _setup_openai_provider(cfg: Dict[str, str], tool_manager: ToolManager) -> Re
 #                        token_counter=None)
 
 
+
 def _setup_response_provider(tool_manager: ToolManager) -> ResponseProvider:
     """
     Sets up the response provider from the cfg.json file and the given ToolManager.
@@ -106,6 +107,7 @@ def _setup_response_provider(tool_manager: ToolManager) -> ResponseProvider:
                            r"the key for open AI usage, or 'GEMINI_KEY' for gemini usage..")
     with open(cfg_path) as f:
         cfg = json.load(f)
+    cfg["OPENAI_API_KEY"] = os.environ["OPENAI_API_KEY"]
     setup_method = _setup_openai_provider
     return setup_method(cfg, tool_manager)
 
