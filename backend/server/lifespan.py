@@ -19,47 +19,15 @@ from backend.model.openai.tool_usage_parser import create_summary_format
 from backend.model.openai.chat_utils import count_tokens
 from backend.model.tool_manager import ToolManager
 from backend.model.chat_manager import ChatManager
+from backend.db.database_connection import DatabaseConnection
 from backend.db.init_db import init_db_if_needed
 from backend.db.sqlite_connection import get_db
 from backend.db.single_instance_pool import SingleInstancePool
 from backend.model.response_provider import ResponseProvider
 from backend.server.ad_provider import MockAdProvider
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from backend.server.novisign_provider import NovisignProvider
-
-
-async def push_to_novisign_async(data_items: Dict[str, Dict[str, Any]], *, api_key: str,
-                                 studio_domain: str = "app.novisign.com",
-                                 items_group: str, timeout: int = 10) -> Dict[str, Any]:
-    url = f"https://{studio_domain}/catalog/items/{items_group}"
-
-    headers = {
-        "Content-Type": "application/json",
-        "X-API-KEY": api_key,
-    }
-
-    payload = {
-        "data": data_items
-    }
-
-    async with httpx.AsyncClient(timeout=timeout) as client:
-        response = await client.post(
-            url,
-            json=payload,
-            headers=headers,
-        )
-
-    if response.status_code >= 400:
-        raise RuntimeError(
-            f"NoviSign API error {response.status_code}: {response.text}"
-        )
-
-    return {
-        "success": True,
-        "items_updated": len(data_items),
-        "timestamp": datetime.utcnow().isoformat(),
-        "response": response.json(),
-    }
+from backend.server.novisign_provider import NovisignProvider, push_to_novisign_async
+from db.queries import GET_NAVIGATION_ASSETS
 
 
 def _setup_openai_provider(cfg: Dict[str, str], tool_manager: ToolManager) -> ResponseProvider:
@@ -113,6 +81,14 @@ def _setup_response_provider(tool_manager: ToolManager) -> ResponseProvider:
     return setup_method(cfg, tool_manager)
 
 
+def _setup_novisign_provider(conn: DatabaseConnection):
+    ad_provider = MockAdProvider(conn)
+    cursor = conn.cursor()
+    rows = cursor.execute(GET_NAVIGATION_ASSETS).fetchall()
+    assets = {r["store_id"]: r["route_path_d"] for r in rows}
+    qr = "qr-code.png"
+    return NovisignProvider(ad_provider, qr, assets)
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
@@ -123,16 +99,15 @@ async def lifespan(app: FastAPI):
         app.state.use_openAI = json.load(f).get("USE_OPENAI", False)
     app.state.db_pool = SingleInstancePool(get_db)
     init_db_if_needed(app.state.db_pool.get_connection)
-    app.state.ad_provider = MockAdProvider(app.state.db_pool.get_connection())
+    app.state.novisign_provider = _setup_novisign_provider(app.state.db_pool.get_connection())
     app.state.response_provider = _setup_response_provider(ToolManager(app.state.db_pool))
     scheduler = AsyncIOScheduler()
 
     async def scheduled_update():
-        data = app.state.ad_provider.get_ad()
-        key = "reckru_LYMXHua9gz1fwwKoK49hh5Cz5di2rb06ojOTzYs5FvcqT-H0MqVp4W-JL"
-        await push_to_novisign_async(api_key=key, items_group="mall-signage", data_items=data, )
+        data = app.state.novisign_provider.get_data()
+        await push_to_novisign_async(data_items=data)
 
-    scheduler.add_job(scheduled_update, trigger="interval", seconds=30, max_instances=1,
+    scheduler.add_job(scheduled_update, trigger="interval", seconds=10, max_instances=1,
                       coalesce=True)
     scheduler.start()
     app.state.messages = []

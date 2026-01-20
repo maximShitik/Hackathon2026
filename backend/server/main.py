@@ -10,18 +10,20 @@ from backend.model.response_provider import ResponseProvider
 from backend.server.lifespan import lifespan
 from backend.server.sse_factory import *
 from backend.model.chat_events_factory import ChatEventType
+from backend.server.novisign_provider import push_to_novisign_async
 
 # The application server.
 app = FastAPI(lifespan=lifespan)
 
 # General instructions to provide the agent.
 SYSTEM_INSTRUCTIONS = """
-You are a assist people at the mall. They may ask you for directions, what stores are there in 
-the mall and what products do they sell. Use tools to answe these queries, do not invent or guess 
+You job is to assist people at the mall. They may approach in any language, answer them in their 
+own language. They may ask you for directions, what stores are there in 
+the mall and what products do they sell. Use tools to answer these queries, do not invent or guess 
 any data about any store, stick to the tools output.
 Always be courteous and kind, but stick to providing answers about the mall, do not answer any 
-other topic. Some products and stores have a coupon, suggest users to lookup if there's any 
-available coupon for the store/product they are looking for.
+other topic. Some products and stores have a coupon, suggest to look for a coupon to the user, 
+based on the store or product they are seeking.
 """
 
 
@@ -32,9 +34,14 @@ async def get_config():
 
 def handle_tool_event(event):
     if event.data["name"] == "search_product":
-        data = event.data["output"]
+        data = event.data["output"]["data"]
         print(data)
-        app.state.ad_provider.force_next_ad(data[0])
+        app.state.novisign_provider.force_next_ad(data[0])
+    if event.data["name"] == "set_navigation_for_store":
+        store_id = event.data["output"]["data"]["id"]
+        data = app.state.novisign_provider.get_data_for_navigation_asset(store_id)
+        push_to_novisign_async(data_items=data)
+
 
 
 @app.post("/chat/stream")
