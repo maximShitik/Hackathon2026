@@ -71,9 +71,9 @@ class OpenAIToolResponseProvider(ResponseProvider):
                            instructions: str) -> AsyncGenerator[ChatEvent, None]:
         input_messages = [m.to_open_ai_input_dict() for m in messages]
 
-        def stream_generator(tool_outputs: List[Dict[str, Any]]):
+        def stream_generator(tool_outputs: List[Dict[str, Any]], messages):
             return self.client.responses.create(model=self.model, instructions=instructions,
-                                                        input=input_messages + tool_outputs,
+                                                        input=messages + tool_outputs,
                                                         tools=OPEN_AI_TOOL_SCHEMA, stream=True)
         async for value in self.tool_client.run_tool_calls_from_stream(stream_generator,
                                                                        input_messages):
