@@ -8,10 +8,10 @@ INSERT INTO stores (store_id, store_name) VALUES
   (4, 'אופטיקנה');
 
 INSERT INTO store_navigation (store_id, map_target_id, route_path_d) VALUES
-  (1, 'superpharm', '/assets/nav/Super_pharm.png'),
-  (2, 'aroma',      '/assets/nav/Aroma.png'),
-  (3, 'teva_naot',  '/assets/nav/Teva_naot.png'),
-  (4, 'opticana',   '/assets/nav/Opticana.png');
+  (1, 'superpharm', 'https://hackathon-2026.onrender.com/assets/nav/Super_pharm.png'),
+  (2, 'aroma',      'https://hackathon-2026.onrender.com/assets/nav/Aroma.png'),
+  (3, 'teva_naot',  'https://hackathon-2026.onrender.com/assets/nav/Teva_naot.png'),
+  (4, 'opticana',   'https://hackathon-2026.onrender.com/assets/nav/Opticana.png');
 
 
 -- COUPONS (rule: STORENAME_IN_UPPERCASE + store_id)
@@ -56,10 +56,10 @@ INSERT INTO products (product_name, category, store_id) VALUES
 
 
 INSERT INTO ads (store_id, ad_type, asset_url, logo_url, category) VALUES
-(1, 'image', '/assets/assets/super_pharm.jpg', '/assets/super_logo.jpg', 'default'),
-(1, 'image', '/assets/assets/gl.jpg', '/assets/super_logo.jpg', 'אופטיקה'),
-(2, 'image', '/assets/assets/moka.png', '/assets/aroma_logo.png', 'default'),
-(2, 'image', '/assets/assets/shakshu.png', '/assets/aroma_logo.png', 'אוכל'),
-(3, 'image', '/assets/assets/tev_asset.jpg', '/assets/teva_naot_logo.png', 'default'),
-(4, 'image', '/assets/assets/optic.png', '/assets/optic_logo.jpg', 'default'),
-(4, 'image', '/assets/assets/gl.jpg', '/assets/optic_logo.jpg', 'אופטיקה');
+(1, 'image', 'https://hackathon-2026.onrender.com/assets/assets/super_pharm.jpg', 'https://hackathon-2026.onrender.com/assets/super_logo.jpg', 'default'),
+(1, 'image', 'https://hackathon-2026.onrender.com/assets/assets/gl.jpg', 'https://hackathon-2026.onrender.com/assets/super_logo.jpg', 'אופטיקה'),
+(2, 'image', 'https://hackathon-2026.onrender.com/assets/assets/moka.png', 'https://hackathon-2026.onrender.com/assets/aroma_logo.png', 'default'),
+(2, 'image', 'https://hackathon-2026.onrender.com/assets/assets/shakshu.png', 'https://hackathon-2026.onrender.com/assets/aroma_logo.png', 'אוכל'),
+(3, 'image', 'https://hackathon-2026.onrender.com/assets/assets/tev_asset.jpg', 'https://hackathon-2026.onrender.com/assets/teva_naot_logo.png', 'default'),
+(4, 'image', 'https://hackathon-2026.onrender.com/assets/assets/optic.png', 'https://hackathon-2026.onrender.com/assets/optic_logo.jpg', 'default'),
+(4, 'image', 'https://hackathon-2026.onrender.com/assets/assets/gl.jpg', 'https://hackathon-2026.onrender.com/assets/optic_logo.jpg', 'אופטיקה');
