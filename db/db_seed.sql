@@ -8,10 +8,10 @@ INSERT INTO stores (store_id, store_name) VALUES
   (4, 'אופטיקנה');
 
 INSERT INTO store_navigation (store_id, map_target_id, route_path_d) VALUES
-  (1, 'superpharm', 'M79 792.5C112.2 790.9 443.167 791.833 604.5 792.5H855.5L956.5 737H1310'),
-  (2, 'aroma',      'M87 795H636.5L683.5 931.5L739 994.5V2249.5L563 2338.5L531.5 2407.5L593 2494.5L608.5 2522V3057.5'),
-  (3, 'teva_naot',  'M85 793H648V880L741 988.5V2283V2300.5H357.5'),
-  (4, 'opticana',   'M87 791H648V880L743 988.5V2283V2297H545.5V2435L612.5 2504.5V2945');
+  (1, 'superpharm', '/nav/Super pharm.png'),
+  (2, 'aroma',      '/nav/Aroma.png'),
+  (3, 'teva_naot',  '/nav/Teva naot.png'),
+  (4, 'opticana',   '/nav/Opticana.png');
 
 
 -- COUPONS (rule: STORENAME_IN_UPPERCASE + store_id)

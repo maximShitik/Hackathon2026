@@ -148,3 +148,8 @@ DELETE_AD_BY_ID = """
 DELETE FROM ads
 WHERE ad_id = ?;
 """
+
+GET_NAVIGATION_ASSETS = """
+SELECT store_id, map_target_id, route_path_d
+FROM store_navigation
+"""

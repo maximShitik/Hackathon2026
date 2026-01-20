@@ -26,7 +26,7 @@ class MockAdProvider(AdProvider):
         self.products = products
         self.window_size = window_size
         self.probs = np.random.dirichlet(np.ones(len(products)), size=1)[0]
-        self.cur_selection = np.random.choice(self.products, size=window_size, replace=False,
+        self.cur_selection = np.random.choice(self.ads, size=window_size, replace=False,
                                               p=self.probs)
         self.next_ad = 0
         self.forced_ad = None
@@ -39,7 +39,7 @@ class MockAdProvider(AdProvider):
         product = self.cur_selection[self.next_ad]
         self.next_ad += 1
         if self.next_ad == self.window_size:
-            self.cur_selection = np.random.choice(self.products, size=self.window_size,
+            self.cur_selection = np.random.choice(self.ads, size=self.window_size,
                                                   replace=False, p=self.probs)
             self.next_ad = 0
         return product
