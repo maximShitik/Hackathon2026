@@ -5,7 +5,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
 import traceback
-from backend.model.message import Message, MessageMetadata
+from backend.model.message import Message
 from backend.model.response_provider import ResponseProvider
 from backend.server.lifespan import lifespan
 from backend.server.sse_factory import *
@@ -34,6 +34,7 @@ def handle_tool_event(event):
     if event.data["name"] == "search_product":
         data = event.data["output"]
         print(data)
+        app.state.ad_provider.force_next_ad(data[0])
 
 
 @app.post("/chat/stream")
@@ -80,10 +81,8 @@ async def chat_stream(req: Request):
                                               model_name_in_messages,
                                               op="append_text", text=event.data["content"])
                 elif event_type == ChatEventType.TEXT_DONE:
-                    meta = event.data.get("metadata", None)
-                    metadata = MessageMetadata(**meta) if meta is not None else None
                     messages.append(Message(role=event.data.get("role"),
-                                            content=event.data.get("content"), metadata=metadata))
+                                            content=event.data.get("content")))
                     if first_delta:
                         yield UI_update_event(SSEEventTypes.RENDER, message_id, "message",
                                               model_name_in_messages,

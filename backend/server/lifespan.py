@@ -25,6 +25,7 @@ from backend.db.single_instance_pool import SingleInstancePool
 from backend.model.response_provider import ResponseProvider
 from backend.server.ad_provider import MockAdProvider
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from backend.server.novisign_provider import NovisignProvider
 
 
 async def push_to_novisign_async(data_items: Dict[str, Dict[str, Any]], *, api_key: str,
@@ -73,9 +74,10 @@ def _setup_openai_provider(cfg: Dict[str, str], tool_manager: ToolManager) -> Re
     model_name = cfg.get("MODEL_NAME", "gpt-5-nano")
     tool_response_provider = OpenAIToolResponseProvider(tool_manager=tool_manager,
                                                         api_key=api_key, model_name=model_name)
-    simple_response_provider = OpenAISimpleResponseProvider(api_key, model_name)
-    return ChatManager(tool_response_provider, simple_response_provider, create_summary_format,
-                       token_counter=count_tokens)
+    return tool_response_provider
+    # simple_response_provider = OpenAISimpleResponseProvider(api_key, model_name)
+    # return ChatManager(tool_response_provider, simple_response_provider, create_summary_format,
+    #                    token_counter=count_tokens)
 
 
 # def _setup_gemini_provider(cfg: Dict[str, str], tool_manager: ToolManager) -> ResponseProvider:
@@ -87,7 +89,6 @@ def _setup_openai_provider(cfg: Dict[str, str], tool_manager: ToolManager) -> Re
 #     return ChatManager(tool_response_provider, simple_response_provider,
 #                        create_gemini_summary_format,
 #                        token_counter=None)
-
 
 
 def _setup_response_provider(tool_manager: ToolManager) -> ResponseProvider:
@@ -111,6 +112,7 @@ def _setup_response_provider(tool_manager: ToolManager) -> ResponseProvider:
     setup_method = _setup_openai_provider
     return setup_method(cfg, tool_manager)
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
@@ -124,6 +126,7 @@ async def lifespan(app: FastAPI):
     app.state.ad_provider = MockAdProvider(app.state.db_pool.get_connection())
     app.state.response_provider = _setup_response_provider(ToolManager(app.state.db_pool))
     scheduler = AsyncIOScheduler()
+
     async def scheduled_update():
         data = app.state.ad_provider.get_ad()
         key = "reckru_LYMXHua9gz1fwwKoK49hh5Cz5di2rb06ojOTzYs5FvcqT-H0MqVp4W-JL"
