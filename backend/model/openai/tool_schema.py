@@ -85,7 +85,7 @@ OPEN_AI_TOOL_SCHEMA = [
     {
         "type": "function",
         "name": "set_navigation_for_store",
-        "description": "Sets the map to navigate to the store with the given ID.",
+        "description": "Shows the user a map with directions to the store with the given ID.",
         "parameters": {
             "type": "object",
             "properties": {
