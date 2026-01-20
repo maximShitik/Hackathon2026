@@ -88,7 +88,7 @@ def _setup_novisign_provider(conn: DatabaseConnection):
     cursor = conn.cursor()
     rows = cursor.execute(GET_NAVIGATION_ASSETS).fetchall()
     assets = {r["store_id"]: r["route_path_d"] for r in rows}
-    qr = "qr-code.png"
+    qr = "assets/qr-code.png"
     return NovisignProvider(ad_provider, qr, assets)
 
 @asynccontextmanager
