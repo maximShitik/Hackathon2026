@@ -10,7 +10,6 @@ from backend.model.response_provider import ResponseProvider
 from backend.server.lifespan import lifespan
 from backend.server.sse_factory import *
 from backend.model.chat_events_factory import ChatEventType
-from backend.server.novisign_provider import push_to_novisign_async
 
 # The application server.
 app = FastAPI(lifespan=lifespan)

@@ -26,7 +26,7 @@ from backend.db.single_instance_pool import SingleInstancePool
 from backend.model.response_provider import ResponseProvider
 from backend.server.ad_provider import MockAdProvider
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from backend.server.novisign_provider import NovisignProvider, push_to_novisign_async
+from backend.server.novisign_provider import NovisignProvider
 from db.queries import GET_NAVIGATION_ASSETS
 
 
