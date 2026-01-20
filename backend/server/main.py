@@ -35,13 +35,15 @@ async def get_config():
 def handle_tool_event(event):
     if event.data["name"] == "search_product":
         data = event.data["output"]["data"]
-        print(data)
         app.state.novisign_provider.force_next_ad(data[0])
     if event.data["name"] == "set_navigation_for_store":
         store_id = event.data["output"]["data"]["id"]
-        data = app.state.novisign_provider.get_data_for_navigation_asset(store_id)
-        push_to_novisign_async(data_items=data)
+        app.state.novisign_provider.set_data_for_navigation_asset(store_id)
 
+
+@app.get("/novisign")
+async def novisign_payload():
+    return app.state.novisign_provider.get_data()
 
 
 @app.post("/chat/stream")
