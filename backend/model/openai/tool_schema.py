@@ -25,7 +25,7 @@ OPEN_AI_TOOL_SCHEMA = [
         "parameters": {
             "type": "object",
             "properties": {
-                "id": {"type": "int"},
+                "id": {"type": "integer"},
             },
             "required": ["id"],
             "additionalProperties": False,
@@ -38,7 +38,7 @@ OPEN_AI_TOOL_SCHEMA = [
         "parameters": {
             "type": "object",
             "properties": {
-                "id": {"type": "int"},
+                "id": {"type": "integer"},
             },
             "required": ["id"],
             "additionalProperties": False,
@@ -63,7 +63,7 @@ OPEN_AI_TOOL_SCHEMA = [
         "parameters": {
             "type": "object",
             "properties": {
-                "id": {"type": "int"},
+                "id": {"type": "integer"},
             },
             "required": ["id"],
             "additionalProperties": False,
@@ -76,7 +76,7 @@ OPEN_AI_TOOL_SCHEMA = [
         "parameters": {
             "type": "object",
             "properties": {
-                "id": {"type": "int"},
+                "id": {"type": "integer"},
             },
             "required": ["id"],
             "additionalProperties": False,
@@ -89,7 +89,7 @@ OPEN_AI_TOOL_SCHEMA = [
         "parameters": {
             "type": "object",
             "properties": {
-                "id": {"type": "int"},
+                "id": {"type": "integer"},
             },
             "required": ["id"],
             "additionalProperties": False,
