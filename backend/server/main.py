@@ -107,4 +107,6 @@ async def chat_stream(req: Request):
     return StreamingResponse(run(), media_type="text/event-stream")
 
 
+app.mount("/assets", StaticFiles(directory="public"), name="assets")
 app.mount("/", StaticFiles(directory="frontend", html=True), name="static")
+
