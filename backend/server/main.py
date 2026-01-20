@@ -55,14 +55,6 @@ async def chat_stream(req: Request):
     body = await req.json()
     conversation = body.get("conversation", [])
     messages = app.state.messages
-
-    # Convert last incoming message (dict) into Message safely
-    if conversation:
-        user_message = Message(**conversation[-1])
-        messages.append(user_message)
-    else:
-        # optional: if no conversation, treat as empty and just proceed / or return error
-        user_message = None
     # model_name_in_messages = "assistant" if app.state.use_openAI else "model"
     model_name_in_messages = "assistant"
 
@@ -71,8 +63,8 @@ async def chat_stream(req: Request):
         try:
             placeholder_id = f"placeholder-{len(conversation)}"
             message_id = f"msg-{len(conversation)}"
-            # user_message = Message(**conversation[-1])
-            # messages.append(user_message)
+            user_message = Message(**conversation[-1])
+            messages.append(user_message)
             first_delta = True
             async for event in response_provider.get_response(messages, SYSTEM_INSTRUCTIONS):
                 event_type = event.type
