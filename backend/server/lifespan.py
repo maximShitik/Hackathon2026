@@ -38,7 +38,10 @@ def _setup_openai_provider(cfg: Dict[str, str], tool_manager: ToolManager) -> Re
     :param tool_manager: The tool manager to use.
     :return: The OpenAI provider.
     """
-    api_key = os.environ["OPENAI_API_KEY"]
+    try:
+        api_key = os.environ["OPENAI_API_KEY"]
+    except:
+        api_key = ""
     model_name = cfg.get("MODEL_NAME", "gpt-5-nano")
     tool_response_provider = OpenAIToolResponseProvider(tool_manager=tool_manager,
                                                         api_key=api_key, model_name=model_name)
@@ -76,7 +79,6 @@ def _setup_response_provider(tool_manager: ToolManager) -> ResponseProvider:
                            r"the key for open AI usage, or 'GEMINI_KEY' for gemini usage..")
     with open(cfg_path) as f:
         cfg = json.load(f)
-    cfg["OPENAI_API_KEY"] = os.environ["OPENAI_API_KEY"]
     setup_method = _setup_openai_provider
     return setup_method(cfg, tool_manager)
 
@@ -101,16 +103,6 @@ async def lifespan(app: FastAPI):
     init_db_if_needed(app.state.db_pool.get_connection)
     app.state.novisign_provider = _setup_novisign_provider(app.state.db_pool.get_connection())
     app.state.response_provider = _setup_response_provider(ToolManager(app.state.db_pool))
-    scheduler = AsyncIOScheduler()
-
-    async def scheduled_update():
-        data = app.state.novisign_provider.get_data()
-        await push_to_novisign_async(data_items=data)
-
-    scheduler.add_job(scheduled_update, trigger="interval", seconds=10, max_instances=1,
-                      coalesce=True)
-    scheduler.start()
     app.state.messages = []
     yield
     app.state.db_pool.close()
-    scheduler.shutdown()
