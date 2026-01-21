@@ -9,7 +9,6 @@ Classes:
 """
 from openai import AsyncOpenAI
 
-from backend.model.generic_tool_client import GenericToolClient
 from backend.model.message import Message
 from backend.model.response_provider import ResponseProvider
 from backend.model.openai.tool_schema import OPEN_AI_TOOL_SCHEMA
@@ -27,13 +26,13 @@ class OpenAISimpleResponseProvider(ResponseProvider):
     Object implementing the ResponseProvider interface for OpenAI API response creations.
     """
 
-    def __init__(self, api_key: str, model_name: str = "gpt-5-nano"):
+    def __init__(self, api_key: str, model_name: str = "gpt-5"):
         self.client = AsyncOpenAI(api_key=api_key)
         self.model = model_name
 
     async def get_response(self, messages: List[Message],
                            instructions: str) -> AsyncGenerator[ChatEvent, None]:
-        input_messages = [m.to_open_ai_input_dict() for m in messages]
+        input_messages = [m.to_input_dict() for m in messages]
         stream = await self.client.responses.create(model=self.model,
                                                     instructions=instructions,
                                                     input=input_messages,
@@ -50,7 +49,7 @@ class OpenAIToolResponseProvider(ResponseProvider):
     usage.
     """
 
-    def __init__(self, tool_manager: ToolManager, api_key: str, model_name: str = "gpt-5-nano",
+    def __init__(self, tool_manager: ToolManager, api_key: str, model_name: str = "gpt-5",
                  tool_call_limit: int = 100):
         """
         Initialize the object with the given arguments.
@@ -64,20 +63,54 @@ class OpenAIToolResponseProvider(ResponseProvider):
         self.client = AsyncOpenAI(api_key=api_key)
         self.model = model_name
         self.tool_manager = tool_manager
-        self.tool_client = GenericToolClient(self._iterate_on_stream, self._create_tool_output,
-                                             tool_call_limit)
+        self.tool_call_limit = tool_call_limit
 
     async def get_response(self, messages: List[Message],
                            instructions: str) -> AsyncGenerator[ChatEvent, None]:
-        input_messages = [m.to_open_ai_input_dict() for m in messages]
+        input_messages = [m.to_input_dict() for m in messages]
+        stream = await self.client.responses.create(model=self.model, instructions=instructions,
+                                                    input=input_messages, tools=OPEN_AI_TOOL_SCHEMA,
+                                                    stream=True)
+        pending_tool_calls = []
+        async for value in self._iterate_on_stream(stream):
+            if value.type == ChatEventType.TOOL_CALL_GENERATED:
+                pending_tool_calls.append(value)
+            else:
+                yield value
+                if value.type == ChatEventType.ERROR:
+                    return
 
-        def stream_generator(tool_outputs: List[Dict[str, Any]], messages):
-            return self.client.responses.create(model=self.model, instructions=instructions,
-                                                        input=messages + tool_outputs,
+        if not pending_tool_calls:
+            yield done_event()
+            return
+
+        tool_outputs = []
+        while len(pending_tool_calls) > 0:
+            if len(tool_outputs) > self.tool_call_limit * 2:  # Each tool call generated 2 entries.
+                raise ValueError("The given query caused an excessive tool usage, aborting.")
+            for value in pending_tool_calls:
+                yield value
+                name = value.data["name"]
+                args_json = value.data["args"]
+                item_id = value.data["call_id"]
+                yield placeholder_event(on_tool_invocation(name, messages[-1].content))
+                tool_outputs.extend(self._create_tool_output(name, args_json, item_id))
+                tool_output = tool_outputs[-1] | {"name": name}
+                yield ChatEvent(ChatEventType.TOOL_OUTPUT_GENERATED, tool_output)
+            pending_tool_calls = []
+            stream = await self.client.responses.create(model=self.model, instructions=instructions,
+                                                        input=input_messages + tool_outputs,
                                                         tools=OPEN_AI_TOOL_SCHEMA, stream=True)
-        async for value in self.tool_client.run_tool_calls_from_stream(stream_generator,
-                                                                       input_messages):
-            yield value
+            async for value in self._iterate_on_stream(stream):
+                if value.type == ChatEventType.TOOL_CALL_GENERATED:
+                    pending_tool_calls.append(value)
+                else:
+                    yield value
+                    if value.type == ChatEventType.ERROR:
+                        return
+
+        yield state_event(ChatEventType.TOOLS_OUTPUT_STATE, json.dumps(tool_outputs))
+        yield done_event()
 
     def _create_tool_output(self, name, args_json, item_id) -> List[Dict[str, Any]]:
         """
@@ -103,7 +136,8 @@ class OpenAIToolResponseProvider(ResponseProvider):
 
     async def _iterate_on_stream(self, stream) -> AsyncGenerator[ChatEvent, None]:
         """
-        Iterate over the stream, capturing openAI events and yield ChatEvents
+        Iterate over the stream and yield events, while filling the given 
+        pending_tool_calls list with the tool calls outputed by the model.
 
         :param stream: The stream to iterate over.
         """
