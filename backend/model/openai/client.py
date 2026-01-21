@@ -32,7 +32,7 @@ class OpenAISimpleResponseProvider(ResponseProvider):
 
     async def get_response(self, messages: List[Message],
                            instructions: str) -> AsyncGenerator[ChatEvent, None]:
-        input_messages = [m.to_input_dict() for m in messages]
+        input_messages = [m.to_open_ai_input_dict() for m in messages]
         stream = await self.client.responses.create(model=self.model,
                                                     instructions=instructions,
                                                     input=input_messages,
@@ -67,7 +67,7 @@ class OpenAIToolResponseProvider(ResponseProvider):
 
     async def get_response(self, messages: List[Message],
                            instructions: str) -> AsyncGenerator[ChatEvent, None]:
-        input_messages = [m.to_input_dict() for m in messages]
+        input_messages = [m.to_open_ai_input_dict()  for m in messages]
         stream = await self.client.responses.create(model=self.model, instructions=instructions,
                                                     input=input_messages, tools=OPEN_AI_TOOL_SCHEMA,
                                                     stream=True)
